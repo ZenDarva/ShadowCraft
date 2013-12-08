@@ -3,6 +3,7 @@
 	<name>ShadowCraft</name>
 	<comment></comment>
 	<projects>
+		<project>Minecraft</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

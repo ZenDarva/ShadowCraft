@@ -179,6 +179,7 @@ public class WellContainer extends Container {
 				well.ApplyUpgrades(par2ItemStack);
 				this.inventory.decrStackSize(0, 1);
 				this.inventory.decrStackSize(1, well.amountToEat);
+				System.out.println(well.amountToEat);
 				this.inventory.decrStackSize(2, 1);
 				this.inventory.decrStackSize(3, 1);
 				super.onPickupFromSlot(par1EntityPlayer, par2ItemStack);

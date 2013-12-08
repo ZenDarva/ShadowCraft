@@ -83,7 +83,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 		}
 		else
 		{
-			stack = stack.splitStack(i);
+			stack = stack.splitStack(j);
 			if (i != 3)
 				updateNewCloak();
 			onInventoryChanged();
@@ -201,7 +201,9 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 			if (this.inventory[1] != null)
 			{
 				
-				amountToEat = MathHelper.clamp_int(newCloak.stackTagCompound.getInteger("MaxCharge") - newCloak.stackTagCompound.getInteger("Charge"), 0, this.inventory[1].stackSize);
+				amountToEat = newCloak.stackTagCompound.getInteger("MaxCharge") - newCloak.stackTagCompound.getInteger("Charge");
+				if (amountToEat > inventory[1].stackSize)
+					amountToEat = inventory[1].stackSize;
 				armor.changeCharge(newCloak, amountToEat);
 				newCloak.stackTagCompound.setBoolean("Upgraded", true);
 				Valid = true;
