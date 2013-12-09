@@ -316,16 +316,21 @@ public class ClientTickHandler implements ITickHandler {
 				{
 					cPlr.motionY = tag.getDouble("Lift");
 				}
+				if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.keyCode))
+				{
+					cPlr.motionY = 0;
+				}
 				
-				 if (!cPlr.onGround)
+				 if (!cPlr.onGround  && !Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.keyCode))
 		            {
-					 		cPlr.motionX *= tag.getDouble("Horizontal");
-					 		cPlr.motionY *= tag.getDouble("Horizontal");
+					 		cPlr.motionX+= -(Math.sin(Math.toRadians(cPlr.getRotationYawHead())) * tag.getDouble("Horizontal"));
+					 		cPlr.motionZ+= (Math.cos(Math.toRadians(cPlr.getRotationYawHead())) * tag.getDouble("Horizontal"));
 					 
 		                    if (tag.getBoolean("Boost") && isPressed(boost)&& Minecraft.getMinecraft().inGameHasFocus == true)
 		                    {
-		   					 cPlr.motionX = -(Math.sin(Math.toRadians(cPlr.getRotationYawHead())) * tag.getDouble("Horizontal"));
-							 cPlr.motionZ = (Math.cos(Math.toRadians(cPlr.getRotationYawHead())) * tag.getDouble("Horizontal"));
+		                    	System.out.println("Boost");
+		   					 cPlr.motionX += -(Math.sin(Math.toRadians(cPlr.getRotationYawHead())) * .08d);
+							 cPlr.motionZ += (Math.cos(Math.toRadians(cPlr.getRotationYawHead())) * .08d);
 		                    }
 		                    cPlr.motionX = MathHelper.clamp_float((float)cPlr.motionX, -1.5f, 1.5f);
 		                    cPlr.motionZ = MathHelper.clamp_float((float)cPlr.motionZ, -1.5f, 1.5f);

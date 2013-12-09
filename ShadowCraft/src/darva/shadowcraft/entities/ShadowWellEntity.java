@@ -224,7 +224,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 								{
 							Valid = true;
 							Changed = true;
-							setupFlightData(newCloak, 100,200,.03d, 1.0399999618530273D, true, false);
+							setupFlightData(newCloak, 100,200, .10d, .01D, true, false);
 							
 								}
 						break;
@@ -235,7 +235,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 								{
 							Valid = true;
 							Changed = true;
-							setupFlightData(newCloak, 600,50,.06d, 1.06d, false, false);
+							setupFlightData(newCloak, 600,50,.15d, .03d, false, false);
 
 								}
 						break;
@@ -245,7 +245,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									{
 								Valid = true;
 								Changed = true;
-								setupFlightData(newCloak, -1,-1,.1d, 1.1d, false, true);
+								setupFlightData(newCloak, -1,-1, .3, .05d, false, true);
 									}
 							break;
 						case 4:
