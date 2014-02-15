@@ -25,7 +25,6 @@ public class ClientTickHandler implements ITickHandler {
 
 	private EnumSet<TickType> ticksToGet;
 	private boolean flying = false;
-	private FlightType FlightData;
 	private ItemStack armor;
 	private ShadowArmor sh;
 	
@@ -74,53 +73,7 @@ public class ClientTickHandler implements ITickHandler {
 		}
 		return false;
 	}
-	private FlightType getFlightData(EntityPlayer player)
-	{
-					FlightType ft;
-					if (armor.hasTagCompound() && armor.stackTagCompound.hasKey("Flight"))
-					{
-						int value;
-						value =armor.stackTagCompound.getInteger("Flight") ;
-						switch (value)
-						{
-						case 1:
-							ft = new FlightType(100, 200, .03, 1.0399999618530273D, true, false);
-							return ft;
-						case 2:
-							ft = new FlightType(600, 50, .06D, 1.05D, false, false);
-							return ft;
-						/*default:
-							return null;*/
-						}
-					}
-					return null;
-				
-	}
 	
-	private class FlightType
-	{
-		int Duration;
-		int Recharge;
-		int RechargeMax;
-		int DurationMax;
-		ItemStack armor;
-		double Climb;
-		double Horizontal;
-		boolean damageOnFall;
-		boolean Creative;
-		
-		public FlightType(int D, int R, double C, double H, boolean d, boolean c)
-		{
-			Duration =D;
-			DurationMax = D;
-			Recharge =R;
-			RechargeMax = R;
-			Climb =C;
-			Horizontal = H;
-			damageOnFall = d;
-			Creative = c;
-		}
-	}
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
 		
@@ -129,7 +82,7 @@ public class ClientTickHandler implements ITickHandler {
 	EntityPlayer plr = (EntityPlayer) tickData[0];
 	EntityClientPlayerMP cPlr = (EntityClientPlayerMP) plr;
 	
-	handleFlightNew(cPlr);
+	handleFlight(cPlr);
 	handleInvisibility(cPlr);
 	handleBlast(cPlr);
 	}
@@ -221,66 +174,8 @@ public class ClientTickHandler implements ITickHandler {
 	
 	
 	
-	private void handleFlight(EntityClientPlayerMP cPlr)
-	{
-		int jump = Minecraft.getMinecraft().gameSettings.keyBindJump.keyCode;
-
-		if (armorHasTag(cPlr, "Flight"))
-		{
-			if (armor.stackTagCompound.getInteger("Charge") == 0)
-				return;
-
-			if (FlightData == null || !FlightData.armor.equals(armor))
-			{
-				FlightData = getFlightData(cPlr);
-				FlightData.armor = armor;
-			}
-			if (FlightData.Duration <= 0)
-			{
-				FlightData.Recharge--;
-				flying = false;
-				
-			}
-			if (FlightData.Recharge == 0)
-			{
-				FlightData.Duration = FlightData.DurationMax;
-				FlightData.Recharge= FlightData.RechargeMax;
-				cPlr.sendQueue.addToSendQueue(Main.buildPacket(PacketHandler.Packet_DamageArmor,-1));
-			}
-			
-			if (flying && FlightData.Duration > 0)
-			{
-				
-				if (cPlr.motionY < FlightData.Climb)
-				{
-					cPlr.motionY = FlightData.Climb;
-				}
-				
-				 if (!cPlr.onGround)
-
-		            {
-		                    cPlr.motionX *= FlightData.Horizontal;
-		                    cPlr.motionZ *= FlightData.Horizontal;
-		            }
-					//Negate fall damage packet.
-					cPlr.sendQueue.addToSendQueue(Main.buildPacket(PacketHandler.Packet_PreventFallDamage,1));
-					FlightData.Duration--;
-			}
-			if (!flying && isPressed(jump) && FlightData.Duration > 0)
-			{
-				flying = true;
-			}
-			if (flying && !isPressed(jump))
-			{
-				flying = false;
-			}
-			if (FlightData.damageOnFall == false)
-				cPlr.sendQueue.addToSendQueue(Main.buildPacket(PacketHandler.Packet_PreventFallDamage,1));;
-			
-		}
-	}
 	
-	private void handleFlightNew(EntityClientPlayerMP cPlr)
+	private void handleFlight(EntityClientPlayerMP cPlr)
 	{
 		int jump = Minecraft.getMinecraft().gameSettings.keyBindJump.keyCode;
 		int boost = Keyboard.KEY_LCONTROL;

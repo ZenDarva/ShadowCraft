@@ -116,11 +116,4 @@ public class EntityBlast extends EntityThrowable {
         }
     }
 
-	@Override
-	public void onUpdate() {
-		// Spawn particles here, make it look more like a blast of shadow.
-		
-		super.onUpdate();
-	}
-
 }

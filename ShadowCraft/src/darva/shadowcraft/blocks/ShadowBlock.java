@@ -23,7 +23,7 @@ public class ShadowBlock extends Block {
 
 	@Override
 	public int getRenderType() {
-		return -1;
+		return -1; //Does not render.
 	}
 
 	@Override
@@ -58,7 +58,6 @@ public class ShadowBlock extends Block {
 	@Override
 	public void updateTick(World world, int x, int y, int z,
 			Random par5Random) {
-		/*super.updateTick(world, x, y, z, par5Random);*/
 		
 		int meta = world.getBlockMetadata(x, y, z);
 		if (meta > spreadLimit)
@@ -72,7 +71,7 @@ public class ShadowBlock extends Block {
 			
 			setBlock(world, x, y, z+1, meta);
 			setBlock(world, x, y, z-1, meta);
-			//Shadows only get to spread once, set metadata to 8 to prevent
+			//Shadows only get to spread once, set metadata to spreadLimit to prevent
 			//further spreading.
 			world.setBlockMetadataWithNotify(x, y, z, spreadLimit, 1|2);
 
@@ -87,6 +86,7 @@ public class ShadowBlock extends Block {
 			}
 			if (meta <= 0 )
 			{
+				//Turn it back to normal air.
 				world.setBlock(x, y, z, 0, 0, 1|2);
 				world.updateAllLightTypes(x, y, z);
 			}
@@ -132,13 +132,11 @@ public class ShadowBlock extends Block {
 
 	@Override
 	public boolean isAirBlock(World world, int x, int y, int z) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean canBeReplacedByLeaves(World world, int x, int y, int z) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	

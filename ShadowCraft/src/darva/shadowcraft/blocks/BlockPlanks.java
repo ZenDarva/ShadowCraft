@@ -14,7 +14,6 @@ public class BlockPlanks extends Block {
 
 	public BlockPlanks(int par1, Material par2Material) {
 		super(par1, par2Material);
-		// TODO Auto-generated constructor stub
 		this.setHardness(.5f);
 		this.setStepSound(Block.soundWoodFootstep);
 		this.setCreativeTab(CreativeTabs.tabBlock);
@@ -24,14 +23,12 @@ public class BlockPlanks extends Block {
 	@Override
 	public boolean isBlockSolid(IBlockAccess par1iBlockAccess, int par2,
 			int par3, int par4, int par5) {
-		// TODO Auto-generated method stub
 		return super.isBlockSolid(par1iBlockAccess, par2, par3, par4, par5);
 	}
 
 	@Override
 	public boolean isBlockSolidOnSide(World world, int x, int y, int z,
 			ForgeDirection side) {
-		// TODO Auto-generated method stub
 		return super.isBlockSolidOnSide(world, x, y, z, side);
 	}
 	@SideOnly(Side.CLIENT)
@@ -41,6 +38,7 @@ public class BlockPlanks extends Block {
     public int getRenderBlockPass()
     {
             return 1;
+            //Render during Alpha pass.
     }
 	 public boolean isOpaqueCube()
 	    {

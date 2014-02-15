@@ -12,7 +12,7 @@ import net.minecraft.util.Icon;
 
 public class ItemRune extends Item {
 
-	public static String[] unLocalNames ={
+	public final static String[] unLocalNames ={
 		
 		"BlankIronRune",
 		"IronFlightRune",
@@ -34,7 +34,7 @@ public class ItemRune extends Item {
 		"EmeraldBlankRune",
 	};
 
-	public static String[] LocalNames ={
+	public final static String[] LocalNames ={
 		
 		"Blank Iron Rune",
 		"Iron Flight Rune",
@@ -60,7 +60,6 @@ public class ItemRune extends Item {
 	private Icon[] Icons;
 	public ItemRune(int par1) {
 		super(par1);
-		// TODO Auto-generated constructor stub
 		
 		
 		iconNames = new String[18];
@@ -88,36 +87,21 @@ public class ItemRune extends Item {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see net.minecraft.item.Item#getUnlocalizedName(net.minecraft.item.ItemStack)
-	 */
 	@Override
 	public String getUnlocalizedName(ItemStack par1ItemStack) {
-		// TODO Auto-generated method stub
 		return unLocalNames[par1ItemStack.getItemDamage()];
 	}
  
-	/* (non-Javadoc)
-	 * @see net.minecraft.item.Item#getIcon(net.minecraft.item.ItemStack, int)
-	 */
 	@Override
 	public Icon getIcon(ItemStack stack, int pass) {
-		// TODO Auto-generated method stub
 		return Icons[0];
 	}
 
-	/* (non-Javadoc)
-	 * @see net.minecraft.item.Item#getIconFromDamage(int)
-	 */
 	@Override
 	public Icon getIconFromDamage(int par1) {
 		return Icons[par1];
 	}
 
-
-	/* (non-Javadoc)
-	 * @see net.minecraft.item.Item#registerIcons(net.minecraft.client.renderer.texture.IconRegister)
-	 */
 
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister IconRegister) {

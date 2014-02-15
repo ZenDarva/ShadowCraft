@@ -19,7 +19,6 @@ public class TreeGenerator implements IWorldGenerator {
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world,
 			IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		// TODO Auto-generated method stub
 		int x = chunkX * 16;
 		int z = chunkZ * 16;
 
@@ -67,7 +66,6 @@ public class TreeGenerator implements IWorldGenerator {
 		destX = x + random.nextInt(16);
 		destZ = z + random.nextInt(16);
 
-		//destY = getTopBlockY(world, destX, destZ);
 		destY = world.getTopSolidOrLiquidBlock(destX, destZ);
 		if (world.getBlockId(destX, destY-1 , destZ) != Block.dirt.blockID && world.getBlockId(destX, destY-1 , destZ) != Block.grass.blockID)
 		{
@@ -77,6 +75,7 @@ public class TreeGenerator implements IWorldGenerator {
 		{
 			for (int z1 = -1; z1 < 1; z1++)
 			{
+				//TODO: Tree's still spawning in water.. Fix.
 				if (world.getBlockMaterial(x1, destY, z1) == Material.wood || 
 						world.getBlockMaterial( x1,destY,z1) == Material.water ||
 						world.getBlockId(x1, destY, z1) == Block.waterStill.blockID
@@ -142,21 +141,6 @@ public class TreeGenerator implements IWorldGenerator {
 				levelsOut = 1;
 			}
 		}
-	}
-	
-	
-	private int getTopBlockY(World world, int x, int z)
-	{
-		int tempY;
-		
-		tempY = world.getHeightValue(x, z);
-		
-		while (world.getBlockId(x, tempY, z) == 0)
-				{
-			tempY = tempY -1;
-				}
-		
-		return tempY;
 	}
 
 }

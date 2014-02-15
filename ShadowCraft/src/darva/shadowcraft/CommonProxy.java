@@ -18,10 +18,7 @@ public class CommonProxy {
 		}
 	public void registerTickHandlers()
 	{
-/*
-		Main.instance.sfh = new ServerFlightHandler(EnumSet.of(TickType.SERVER));
-		TickRegistry.registerTickHandler(Main.instance.sfh, Side.SERVER);
-		*/	
+		//Stub.  All tick's handled client side.
 	}
 
 }

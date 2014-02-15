@@ -12,7 +12,6 @@ public class blockSapling extends BlockFlower {
 	private int growth = 0;
 	public blockSapling(int par1, Material par2Material) {
 		super(par1, par2Material);
-		// TODO Auto-generated constructor stub
 		float f = 0.4F;
         setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
         this.needsRandomTick = true;
@@ -25,12 +24,12 @@ public class blockSapling extends BlockFlower {
 	 }
 	 public int getRenderBlockPass()
 	    {
-	            return 1;
+	        return 1;
 	    }
-		 public boolean isOpaqueCube()
-		    {
-		        return false;
-		    }
+	 public boolean isOpaqueCube()
+	    {
+	        return false;
+	    }
 
 		/* (non-Javadoc)
 		 * @see net.minecraft.block.BlockFlower#updateTick(net.minecraft.world.World, int, int, int, java.util.Random)
@@ -38,16 +37,15 @@ public class blockSapling extends BlockFlower {
 		@Override
 		public void updateTick(World world, int x, int y, int z,
 				Random random) {
-			// TODO Auto-generated method stub
 			super.updateTick(world, x, y, z, random);
-			int l;
+			int meta;
 			if (world.isRemote)
 				return;
 			if (random.nextInt(7) <3)
 			{
-				l = world.getBlockMetadata(x, y, z);
-				l++;
-				world.setBlockMetadataWithNotify(x, y, z, l,4 );
+				meta = world.getBlockMetadata(x, y, z);
+				meta++;
+				world.setBlockMetadataWithNotify(x, y, z, meta,4 );
 			}
 			
 			if (world.getBlockMetadata(x, y, z) >= 6)
@@ -57,9 +55,6 @@ public class blockSapling extends BlockFlower {
 			
 		}
 
-		/* (non-Javadoc)
-		 * @see net.minecraft.block.Block#onBlockEventReceived(net.minecraft.world.World, int, int, int, int, int)
-		 */
 		@Override
 		public boolean onBlockEventReceived(World par1World, int par2,
 				int par3, int par4, int par5, int par6) {
@@ -67,16 +62,16 @@ public class blockSapling extends BlockFlower {
 			if (par1World.isRemote)
 				return true;
 			Random rnd = new Random();
-			int l = par1World.getBlockMetadata(par2, par3, par4);
+			int meta = par1World.getBlockMetadata(par2, par3, par4);
 			rnd.setSeed( System.currentTimeMillis());
-			l = l + rnd.nextInt(2);
-			if (l >6) 
+			meta = meta + rnd.nextInt(2);
+			if (meta >6) 
 			{
 				Main.treeGen.growTree(par1World, rnd, par2, par3, par4);
 			}
 			else
 			{
-				par1World.setBlockMetadataWithNotify(par2, par3, par4, l,4 );
+				par1World.setBlockMetadataWithNotify(par2, par3, par4, meta,4 );
 			}
 			return super.onBlockEventReceived(par1World, par2, par3, par4, par5, par6);
 			

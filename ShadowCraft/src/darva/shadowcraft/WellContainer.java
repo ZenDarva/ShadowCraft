@@ -55,14 +55,9 @@ public class WellContainer extends Container {
 	        	  {
 	        		  return null;  
 	        	  }
-	                
 	          }
 	        } 
-	        else if(saneMergeItemStack(itemstack, 36, 36 + well.getSizeInventory(), false))
-	        {
-	          
-	        }
-	        else
+	        else if(!saneMergeItemStack(itemstack, 36, 36 + well.getSizeInventory(), false))
 	        {
 	        	return null;
 	        }
@@ -86,7 +81,6 @@ public class WellContainer extends Container {
 
 		@Override
 		public boolean isItemValid(ItemStack itemstack) {
-			// TODO Auto-generated method stub
 			if (itemstack.itemID != Main.shadowArmor.itemID)
 			{
 				return false;
@@ -99,7 +93,6 @@ public class WellContainer extends Container {
 		 */
 		@Override
 		public int getSlotStackLimit() {
-			
 			return 1;
 		}
 
@@ -175,10 +168,13 @@ public class WellContainer extends Container {
 			public void onPickupFromSlot(EntityPlayer par1EntityPlayer,
 					ItemStack par2ItemStack) {
 				
-				well.ApplyUpgrades(par2ItemStack);
+				//Consume origonal Cloak
 				this.inventory.decrStackSize(0, 1);
+				//Consume Congealed Shadows
 				this.inventory.decrStackSize(1, well.amountToEat);
+				//Consume any Rune
 				this.inventory.decrStackSize(2, 1);
+				// Ensure that new cloak dissapears from Well.
 				this.inventory.decrStackSize(3, 1);
 				super.onPickupFromSlot(par1EntityPlayer, par2ItemStack);
 				this.inventory.onInventoryChanged();
@@ -189,6 +185,14 @@ public class WellContainer extends Container {
 					return false;
 			}
 		}
+		
+		/*
+		 * Rewrite of Forge API function.
+		 * 
+		 * Original function allowed items to be placed into stacks that returned
+		 * false from isItemValid(ItemStack)
+		 * 
+		 */
 		 protected boolean saneMergeItemStack(ItemStack par1ItemStack, int par2, int par3, boolean par4)
 		    {
 		        boolean flag1 = false;
@@ -276,9 +280,6 @@ public class WellContainer extends Container {
 		        return flag1;
 		    }
 
-		/* (non-Javadoc)
-		 * @see net.minecraft.inventory.Container#onContainerClosed(net.minecraft.entity.player.EntityPlayer)
-		 */
 		@Override
 		public void onContainerClosed(EntityPlayer par1EntityPlayer) {
 			super.onContainerClosed(par1EntityPlayer);
@@ -287,12 +288,13 @@ public class WellContainer extends Container {
 	        {
 	        	for (int k = 0; k < 4; k++)
 	        	{
-	            ItemStack itemstack = this.well.getStackInSlotOnClosing(k);
+	        		ItemStack itemstack = this.well.getStackInSlotOnClosing(k);
 
-	            if (itemstack != null)
-	            {
-	                par1EntityPlayer.dropPlayerItem(itemstack);
-	            }
+	        		if (itemstack != null)
+	        		{
+	        			par1EntityPlayer.dropPlayerItem(itemstack);
+	        			//Don't allow items to remain in Well after closed.
+	        		}
 	        	}
 	        }
 			super.onContainerClosed(par1EntityPlayer);

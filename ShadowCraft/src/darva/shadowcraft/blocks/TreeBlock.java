@@ -83,16 +83,6 @@ public class TreeBlock extends Block {
     		return endIcon;
     	if (side == 0)
     		return endIcon;
-
-    		
-/*    	
-    	if (meta == 2 && side == 2)
-    		return faceIcon;
-    	if (meta == 1 && side == 4)
-    		return faceIcon;
-    	if (meta == 3 && side == 5)
-    		return faceIcon;
-*/
     	return blockIcon;
     }
 	/* (non-Javadoc)
@@ -122,9 +112,10 @@ public class TreeBlock extends Block {
 			if (i != null)
 				if (i.itemID == Main.shadowArmor.itemID)
 				{
-					//This is where the final logic will go.
 					int facing = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 					Vector3 vec = findTree(par1World, facing, par2, par3, par4);
+					//Try different algorithms for findTree
+					//Possibly depth, then width, however, this seems to work for now.
 					if (vec == null)
 					{
 						return false;
@@ -133,7 +124,7 @@ public class TreeBlock extends Block {
 					switch (facing)
 					{
 					case 0:
-						vec.z++;
+						vec.z++;//offset, so we're not standing in the tree after teleporting.
 						teleportPlayer(par1World, player, vec);
 						break;
 					case 2:
@@ -229,6 +220,7 @@ public class TreeBlock extends Block {
                 {
                         if (player.isRiding())
                         {
+                        	//Dismount the player if they're mounted.
                             player.mountEntity((Entity)null);
                         }
 
@@ -238,12 +230,11 @@ public class TreeBlock extends Block {
                         z = Math.abs(z1 - to.z);
                         dist = (int)Math.sqrt((x*x) +(z*z));
                         dist/=10;
-                        System.out.print("distance: " + dist + "\n\r");
                         if (dist > 19)
                         	dist = 19;
                         player.setPositionAndUpdate(to.x+.5,to.y, to.z+.5);
-                        player.fallDistance = 0.0F;
-                        
+
+                        player.fallDistance = 0.0F; // must clear, or damage is unpredictable.
                         player.attackEntityFrom(DamageSource.fall, dist);
                         
                 }

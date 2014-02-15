@@ -13,41 +13,25 @@ import darva.shadowcraft.entities.ShadowWellEntity;
 
 public class ShadowWell extends BlockContainer {
 
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#renderAsNormalBlock()
-	 */
 	@Override
 	public boolean renderAsNormalBlock() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#getRenderType()
-	 */
 	@Override
 	public int getRenderType() {
-		// TODO Auto-generated method stub
 		return -1;
+		//Rendered by WellRender.java
 	}
 
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#isOpaqueCube()
-	 */
 	@Override
 	public boolean isOpaqueCube() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#registerIcons(net.minecraft.client.renderer.texture.IconRegister)
-	 */
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		// TODO Auto-generated method stub
 		super.registerIcons(par1IconRegister);
-		//this.blockIcon = par1IconRegister.registerIcon("shadowtrees" + ":" + "shadowwell");
 	}
 
 	public ShadowWell(int par1, Material par2Material) {
@@ -71,7 +55,6 @@ public class ShadowWell extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		// TODO Auto-generated method stub
 		return new ShadowWellEntity();
 	}
 	

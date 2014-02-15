@@ -28,9 +28,6 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 		inventory = new ItemStack[this.getSizeInventory()];
 		this.canUpdate();
 	}
-	/* (non-Javadoc)
-	 * @see net.minecraft.tileentity.TileEntity#updateEntity()
-	 */
 	@Override
 	public void updateEntity() {
 		count +=1;
@@ -156,10 +153,6 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 				return true;
 	}
 
-	public void ApplyUpgrades(ItemStack Cloak)
-	{
-		
-	}
 	
 	private void setupFlightData(ItemStack stack, int MaxDuration, int MaxRecharge, double lift, double horizontal, boolean damage, boolean boost )
 	{

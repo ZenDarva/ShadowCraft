@@ -17,7 +17,6 @@ public class WellGui extends GuiContainer {
 		super(par1Container);
 		xSize = 187;
 		ySize = 128;
-		// TODO Auto-generated constructor stub
 	}
 
 	public static final ResourceLocation texture = new ResourceLocation("shadowtrees", "textures/gui/shadowgui.png");
@@ -27,9 +26,6 @@ public class WellGui extends GuiContainer {
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-		
-		
-
 	}
 	
 	public WellGui(InventoryPlayer invPlayer, ShadowWellEntity entity) {
@@ -38,9 +34,6 @@ public class WellGui extends GuiContainer {
 		ySize = 128;
 		this.width = 187;
 		this.height = 128;
-
-				
-
 	}
 
 

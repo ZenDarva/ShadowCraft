@@ -37,6 +37,8 @@ public class ShadowArmor extends ItemArmor{
 		{
 			return;
 		}
+		
+		//Need a cleaner way to handle rune descriptions.
 		switch (tag.getInteger("Flight"))
 		{
 		default:
@@ -117,16 +119,10 @@ public class ShadowArmor extends ItemArmor{
 	}
 	
 	
-	/* (non-Javadoc)
-	 * @see net.minecraft.item.Item#getItemDisplayName(net.minecraft.item.ItemStack)
-	 */
-	
-	/* (non-Javadoc)
-	 * @see net.minecraft.item.Item#setDamage(net.minecraft.item.ItemStack, int)
-	 */
 	@Override
 	public void setDamage(ItemStack stack, int damage) {
-			;
+			;//Prevent vanilla damage mechanics.
+			//All internal damage is handled through changeCharge.
 		return;
 	}
 	
@@ -148,7 +144,7 @@ public class ShadowArmor extends ItemArmor{
 	 */
 	@Override
 	public int getDamage(ItemStack stack) {
-		
+		//Clamping damage to MaxDamage -1 prevents item from being destroyed.
 		return MathHelper.clamp_int(super.getDamage(stack), 0, this.getMaxDamage() -1);
 	}
 
@@ -164,8 +160,6 @@ public class ShadowArmor extends ItemArmor{
 		par1ItemStack.stackTagCompound.setInteger("MaxCharge", 20);
 		par1ItemStack.stackTagCompound.setBoolean("Upgraded", false);
 		par1ItemStack.stackTagCompound.setCompoundTag("display", tag);
-		lTag = new NBTTagList();
-		tag.setTag("Lore", lTag);
 		
 	}
 	public ShadowArmor(int par1, EnumArmorMaterial par2EnumArmorMaterial,
@@ -195,6 +189,7 @@ public class ShadowArmor extends ItemArmor{
 			armorModel = Main.proxy.getArmorModel(0);
 			if (entityLiving.isInvisible())
 			{
+				//If player is invisible, armor should be too.
 				return null;
 			}
 			if(armorModel != null){
@@ -222,28 +217,16 @@ public class ShadowArmor extends ItemArmor{
 	
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		// TODO Auto-generated method stub
-		
 		this.itemIcon = par1IconRegister.registerIcon("shadowtrees:shadowcloak"); //Temporary.
-		//super.registerIcons(par1IconRegister);
 	}
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
-		// TODO Auto-generated method stub
-		if (entity.isInvisible())
+		if (entity.isInvisible()) //If player is invisible, armor should be too.
 			return "shadowtrees:textures/armor/blank.png";
 		else
 			return "shadowtrees:textures/armor/shadowcloak2.png";
-	}
-	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World,
-			Entity par3Entity, int par4, boolean par5) {
-		// TODO Auto-generated method stub
-		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
-		
-		
 	}
 
 	

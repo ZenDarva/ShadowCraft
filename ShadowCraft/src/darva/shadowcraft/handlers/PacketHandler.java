@@ -20,7 +20,7 @@ import darva.shadowcraft.Main;
 import darva.shadowcraft.entities.EntityBlast;
 import darva.shadowcraft.item.ShadowArmor;
 
-
+//ToDo: Rewrite... This works, but isn't pretty.
 public class PacketHandler implements IPacketHandler {
 	public final static int Packet_DamageArmor = 1;
 	public final static int Packet_PreventFallDamage = 2;

@@ -40,13 +40,9 @@ public class TreeLeaves extends Block {
 	    {
 	        return true;
 	    }
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#updateTick(net.minecraft.world.World, int, int, int, java.util.Random)
-	 */
 	@Override
 	public void updateTick(World par1World, int x, int y, int z,
 			Random par5Random) {
-		// TODO Auto-generated method stub
 		
 		if ((compareNeighbors(par1World, x,y,z, Main.LeavesBlock.blockID) ||
 				compareNeighbors(par1World, x,y,z, Main.TreeBlock.blockID))
@@ -57,6 +53,7 @@ public class TreeLeaves extends Block {
 			
 			if (par5Random.nextInt(20) > 5)
 			{
+				//Spawn shadows around this block.
 				setBlock(par1World, x-1,y,z);
 				setBlock(par1World, x+1,y,z);
 				setBlock(par1World, x,y+1,z);
@@ -70,7 +67,6 @@ public class TreeLeaves extends Block {
 		}
 		
 		par1World.destroyBlock(x, y, z, true);
-		//this.dropBlockAsItem(par1World, par2, par3, par4, 0, 0);
 		
 		super.updateTick(par1World, x, y, z, par5Random);
 	}

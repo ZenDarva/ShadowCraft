@@ -20,7 +20,7 @@ public class ClientProxy extends CommonProxy {
 	private static final ShadowCloak cloak = new ShadowCloak();
 	@Override
 	public void registerRenderers() {
-		//Stub, nothing to do here, servers don't render.
+		
 		 ClientRegistry.bindTileEntitySpecialRenderer(ShadowWellEntity.class, new WellRender());
 		 EntityRegistry.registerGlobalEntityID(EntityBlast.class, "ShadowBlast", 560);
          RenderingRegistry.registerEntityRenderingHandler(EntityBlast.class, new BlastRender());
