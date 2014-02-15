@@ -23,7 +23,6 @@ public class WellContainer extends Container {
 			  this.addSlotToContainer(new Slot(invPlayer, x, 7 + x * 20, 109));
 			}
 		
-		System.out.println (this.well.worldObj.isRemote);
 			for (int y = 0; y<3; y++)
 				for(int x = 0; x< 9; x++) {	
 				{
@@ -179,7 +178,6 @@ public class WellContainer extends Container {
 				well.ApplyUpgrades(par2ItemStack);
 				this.inventory.decrStackSize(0, 1);
 				this.inventory.decrStackSize(1, well.amountToEat);
-				System.out.println(well.amountToEat);
 				this.inventory.decrStackSize(2, 1);
 				this.inventory.decrStackSize(3, 1);
 				super.onPickupFromSlot(par1EntityPlayer, par2ItemStack);
@@ -212,7 +210,6 @@ public class WellContainer extends Container {
 		                itemstack1 = slot.getStack();
 		                if ( slot.isItemValid(par1ItemStack) && itemstack1 != null && itemstack1.itemID == par1ItemStack.itemID && (!par1ItemStack.getHasSubtypes() || par1ItemStack.getItemDamage() == itemstack1.getItemDamage()) && ItemStack.areItemStackTagsEqual(par1ItemStack, itemstack1)  )
 		                {
-		                	System.out.println("Slot:" +k);
 		                    int l = itemstack1.stackSize + par1ItemStack.stackSize;
 
 		                    if (l <= par1ItemStack.getMaxStackSize())

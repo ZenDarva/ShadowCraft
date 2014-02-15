@@ -44,22 +44,35 @@ public class TreeLeaves extends Block {
 	 * @see net.minecraft.block.Block#updateTick(net.minecraft.world.World, int, int, int, java.util.Random)
 	 */
 	@Override
-	public void updateTick(World par1World, int par2, int par3, int par4,
+	public void updateTick(World par1World, int x, int y, int z,
 			Random par5Random) {
 		// TODO Auto-generated method stub
 		
-		if ((compareNeighbors(par1World, par2,par3,par4, Main.LeavesBlock.blockID) ||
-				compareNeighbors(par1World, par2,par3,par4, Main.TreeBlock.blockID))
-				&& CheckForWood(par1World, par2,par3,par4))
+		if ((compareNeighbors(par1World, x,y,z, Main.LeavesBlock.blockID) ||
+				compareNeighbors(par1World, x,y,z, Main.TreeBlock.blockID))
+				&& CheckForWood(par1World, x,y,z))
 		{
-			//We're good, don't dissipate.
+			//We're good, don't dissipate, but check to see if we need to spawn
+			// shadows.
+			
+			if (par5Random.nextInt(20) > 5)
+			{
+				setBlock(par1World, x-1,y,z);
+				setBlock(par1World, x+1,y,z);
+				setBlock(par1World, x,y+1,z);
+				setBlock(par1World, x,y-1,z);
+				setBlock(par1World, x,y,z-1);
+				setBlock(par1World, x,y,z+1);
+			}
+			
+			
 			return;
 		}
 		
-		par1World.destroyBlock(par2, par3, par4, true);
+		par1World.destroyBlock(x, y, z, true);
 		//this.dropBlockAsItem(par1World, par2, par3, par4, 0, 0);
 		
-		super.updateTick(par1World, par2, par3, par4, par5Random);
+		super.updateTick(par1World, x, y, z, par5Random);
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#idDropped(int, java.util.Random, int)
@@ -101,4 +114,15 @@ public class TreeLeaves extends Block {
 		
 		return false;
 	}
+	
+	private void setBlock(World world, int x, int y, int z)
+	{
+		if (world.isAirBlock(x, y, z) && world.getBlockId(x, y, z) != this.blockID)
+		{
+			//Possible, and sane to replace this block with shadows.
+			world.setBlock(x, y, z, Main.shadowBlock.blockID, 6, 3);
+			world.scheduleBlockUpdate(x, y, z, Main.shadowBlock.blockID, 20);
+		}
+	}
+
 }

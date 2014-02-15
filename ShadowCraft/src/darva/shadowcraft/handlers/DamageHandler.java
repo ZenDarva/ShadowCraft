@@ -28,6 +28,8 @@ public class DamageHandler {
 
 		if (armor == null)
 				return;
+		if (armor.stackTagCompound == null)
+			return;
 		if (armor.stackTagCompound.getInteger("Charge") == 0)
 			return;
 
@@ -46,7 +48,10 @@ public class DamageHandler {
 				break;			
 			}
 		}
-		event.setResult(Result.ALLOW);
+		if (event.ammount > 0)
+			event.setResult(Result.ALLOW);
+		else
+			event.setCanceled(true);
 		
 	}
 	

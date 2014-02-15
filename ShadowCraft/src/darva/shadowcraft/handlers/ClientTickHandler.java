@@ -189,7 +189,7 @@ public class ClientTickHandler implements ITickHandler {
 		}
 	}
 	
-	private int getRealLight(int x, int y, int z, World world)
+	public static int getRealLight(int x, int y, int z, World world)
 	{
         int i1 = world.getSavedLightValue(EnumSkyBlock.Sky, x, y, z) - world.skylightSubtracted;
         float f = world.getCelestialAngleRadians(1.0F);
@@ -305,7 +305,6 @@ public class ClientTickHandler implements ITickHandler {
 			{
 				cPlr.sendQueue.addToSendQueue(detailedPacket(PacketHandler.Packet_Flight_Detail, tag.getInteger("MaxRecharge"), "Recharge" ));
 				cPlr.sendQueue.addToSendQueue(detailedPacket(PacketHandler.Packet_Flight_Detail, tag.getInteger("MaxDuration"), "Duration" ));
-				System.out.println("Recharged");
 				
 			}
 			
@@ -328,7 +327,6 @@ public class ClientTickHandler implements ITickHandler {
 					 
 		                    if (tag.getBoolean("Boost") && isPressed(boost)&& Minecraft.getMinecraft().inGameHasFocus == true)
 		                    {
-		                    	System.out.println("Boost");
 		   					 cPlr.motionX += -(Math.sin(Math.toRadians(cPlr.getRotationYawHead())) * .08d);
 							 cPlr.motionZ += (Math.cos(Math.toRadians(cPlr.getRotationYawHead())) * .08d);
 		                    }
@@ -351,7 +349,6 @@ public class ClientTickHandler implements ITickHandler {
 			if (!flying && isPressed(jump) && (tag.getInteger("Duration") > 0 || tag.getInteger("MaxDuration") == -1) && Minecraft.getMinecraft().inGameHasFocus == true)
 			{
 				flying = true;
-				System.out.println("flying");
 			}
 			if (flying && !isPressed(jump))
 			{

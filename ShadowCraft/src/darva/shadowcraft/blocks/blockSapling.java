@@ -40,12 +40,14 @@ public class blockSapling extends BlockFlower {
 				Random random) {
 			// TODO Auto-generated method stub
 			super.updateTick(world, x, y, z, random);
-			
-			if (random.nextInt(10) <3)
+			int l;
+			if (world.isRemote)
+				return;
+			if (random.nextInt(7) <3)
 			{
-				
-				world.setBlockMetadataWithNotify(x, y, z, this.blockID, world.getBlockMetadata(x, y, z) +1 );
-				System.out.println("Meta"+ world.getBlockMetadata(x, y, z));
+				l = world.getBlockMetadata(x, y, z);
+				l++;
+				world.setBlockMetadataWithNotify(x, y, z, l,4 );
 			}
 			
 			if (world.getBlockMetadata(x, y, z) >= 6)
@@ -62,13 +64,19 @@ public class blockSapling extends BlockFlower {
 		public boolean onBlockEventReceived(World par1World, int par2,
 				int par3, int par4, int par5, int par6) {
 			// TODO Auto-generated method stub
-			System.out.print("Bonemeal");
+			if (par1World.isRemote)
+				return true;
 			Random rnd = new Random();
+			int l = par1World.getBlockMetadata(par2, par3, par4);
 			rnd.setSeed( System.currentTimeMillis());
-			growth = growth + rnd.nextInt(2);
-			if (growth >6) 
+			l = l + rnd.nextInt(2);
+			if (l >6) 
 			{
 				Main.treeGen.growTree(par1World, rnd, par2, par3, par4);
+			}
+			else
+			{
+				par1World.setBlockMetadataWithNotify(par2, par3, par4, l,4 );
 			}
 			return super.onBlockEventReceived(par1World, par2, par3, par4, par5, par6);
 			

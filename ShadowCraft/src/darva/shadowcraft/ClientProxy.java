@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.TickType;
@@ -22,7 +23,8 @@ public class ClientProxy extends CommonProxy {
 		//Stub, nothing to do here, servers don't render.
 		 ClientRegistry.bindTileEntitySpecialRenderer(ShadowWellEntity.class, new WellRender());
 		 EntityRegistry.registerGlobalEntityID(EntityBlast.class, "ShadowBlast", 560);
-         RenderingRegistry.registerEntityRenderingHandler(EntityBlast.class, new BlastRender(Item.snowball));
+         RenderingRegistry.registerEntityRenderingHandler(EntityBlast.class, new BlastRender());
+         MinecraftForgeClient.registerItemRenderer(Main.shadowWell.blockID, new ItemRender());
 	}
 	@Override
 	public void registerTickHandlers()

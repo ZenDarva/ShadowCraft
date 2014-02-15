@@ -23,6 +23,8 @@ public class TreeGenerator implements IWorldGenerator {
 		int x = chunkX * 16;
 		int z = chunkZ * 16;
 
+		
+		
 		BiomeGenBase biome;
 		biome = world.getBiomeGenForCoords(x, z);
 		int chance = 1;
@@ -69,7 +71,6 @@ public class TreeGenerator implements IWorldGenerator {
 		destY = world.getTopSolidOrLiquidBlock(destX, destZ);
 		if (world.getBlockId(destX, destY-1 , destZ) != Block.dirt.blockID && world.getBlockId(destX, destY-1 , destZ) != Block.grass.blockID)
 		{
-			System.out.print("Failed on block type: " + world.getBlockId(destX, destY, destZ) + "\n\r");
 			return;
 		}
 		for (int x1 = -1; x1<1; x1++)
@@ -77,7 +78,9 @@ public class TreeGenerator implements IWorldGenerator {
 			for (int z1 = -1; z1 < 1; z1++)
 			{
 				if (world.getBlockMaterial(x1, destY, z1) == Material.wood || 
-						world.getBlockMaterial( x1,destY,z1) == Material.water)
+						world.getBlockMaterial( x1,destY,z1) == Material.water ||
+						world.getBlockId(x1, destY, z1) == Block.waterStill.blockID
+						)
 				{
 					goodHere = false;
 				}

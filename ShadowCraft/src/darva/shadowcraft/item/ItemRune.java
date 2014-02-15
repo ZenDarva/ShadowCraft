@@ -16,7 +16,7 @@ public class ItemRune extends Item {
 		
 		"BlankIronRune",
 		"IronFlightRune",
-		"DiamondFlyingRune",
+		"DiamondFlightRune",
 		"EmeraldFlightRune",
 		"IronDissipationRune",
 		"DiamondDissipationRune",
@@ -38,9 +38,9 @@ public class ItemRune extends Item {
 		
 		"Blank Iron Rune",
 		"Iron Flight Rune",
-		"Diamond Flying Rune",
+		"Diamond Flight Rune",
 		"Emerald Flight Rune",
-		"IronDissipationRune",
+		"Iron Dissipation Rune",
 		"Diamond Dissipation Rune",
 		"Emerald Dissipation Rune",
 		"Iron Fog Rune",

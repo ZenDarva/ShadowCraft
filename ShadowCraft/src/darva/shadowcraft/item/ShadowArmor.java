@@ -1,5 +1,7 @@
 package darva.shadowcraft.item;
 
+import java.util.List;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
@@ -20,6 +22,94 @@ import darva.shadowcraft.Main;
 public class ShadowArmor extends ItemArmor{
 
 	
+	@Override
+	public void addInformation(ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+		// TODO Auto-generated method stub
+		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
+		
+		NBTTagCompound tag;
+		tag = par1ItemStack.stackTagCompound;
+		
+		if (tag == null)
+			return;
+		if (!tag.getBoolean("Upgraded"))
+		{
+			return;
+		}
+		switch (tag.getInteger("Flight"))
+		{
+		default:
+			break;
+		case 1:
+			par3List.add("Iron Flight Rune");
+			break;
+		case 2:
+			par3List.add("Diamond Flight Rune");
+			break;
+		case 3:
+			par3List.add("Emerald Flight Rune");
+			break;
+		}
+		switch (tag.getInteger("Dissipation"))
+		{
+		default:
+			break;
+		case 1:
+			par3List.add("Iron Dissipation Rune");
+			break;
+		case 2:
+			par3List.add("Diamond Dissipation Rune");
+			break;
+		case 3:
+			par3List.add("Emerald Dissipation Rune");
+			break;
+		}
+		switch (tag.getInteger("Fog"))
+		{
+		default:
+			break;
+		case 1:
+			par3List.add("Iron Fog Rune");
+			break;
+		case 2:
+			par3List.add("Diamond Fog Rune");
+			break;
+		case 3:
+			par3List.add("Emerald Fog Rune");
+			break;
+		}
+		switch (tag.getInteger("Concentration"))
+		{
+		default:
+			break;
+		case 1:
+			par3List.add("Iron Concentration Rune");
+			break;
+		case 2:
+			par3List.add("Diamond Concentration Rune");
+			break;
+		case 3:
+			par3List.add("Emerald Concentration Rune");
+			break;
+		}
+		switch (tag.getInteger("Blast"))
+		{
+		default:
+			break;
+		case 1:
+			par3List.add("Iron Blast Rune");
+			break;
+		case 2:
+			par3List.add("Diamond Blast Rune");
+			break;
+		case 3:
+			par3List.add("Emerald Blast Rune");
+			break;
+		}
+	}
+
+
 	@Override
 	public boolean isRepairable() {
 		
@@ -50,12 +140,6 @@ public class ShadowArmor extends ItemArmor{
 		stack.stackTagCompound.setInteger("Charge", charge);
 		 double Percent = ((double)charge/(double)maxCharge);
 		super.setDamage(stack, (int)(this.getMaxDamage() - (this.getMaxDamage() * Percent)) ) ;
-		/*
-		System.out.println("Charge: " + charge + " MaxCharge: " + maxCharge );
-		System.out.println("Percent:" + Percent);
-		System.out.println("incoming Damage: " + amount);
-		System.out.println("Result " + (this.getMaxDamage() - (this.getMaxDamage() * Percent)));
-		*/
 	}
 	
 	
@@ -69,12 +153,6 @@ public class ShadowArmor extends ItemArmor{
 	}
 
 
-	@Override
-	public void onCreated(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
-			setupNBT(par1ItemStack);
-		super.onCreated(par1ItemStack, par2World, par3EntityPlayer);
-	}
 	
 	public void setupNBT(ItemStack par1ItemStack)
 	{
@@ -96,15 +174,29 @@ public class ShadowArmor extends ItemArmor{
 		this.setUnlocalizedName("shadowcloak");
 		LanguageRegistry.addName(this, "Shadow Cloak");
 		this.maxStackSize=1;
+		
+		
 	}
+	@Override
+	public boolean requiresMultipleRenderPasses() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving,
 	ItemStack itemStack, int armorSlot) {
 		ModelBiped armorModel = null;
+		ShadowArmor sh;
 		if (itemStack != null && itemStack.getItem() instanceof ShadowArmor)
 		{
 			armorModel = Main.proxy.getArmorModel(0);
+			if (entityLiving.isInvisible())
+			{
+				return null;
+			}
 			if(armorModel != null){
 				armorModel.bipedHead.showModel = armorSlot == 0;
 				armorModel.bipedHeadwear.showModel = armorSlot == 0;
@@ -123,29 +215,27 @@ public class ShadowArmor extends ItemArmor{
 				}
 				return armorModel;
 				}
+			
 		}
 	return null;
 	}
-	/* (non-Javadoc)
-	 * @see net.minecraft.item.ItemArmor#registerIcons(net.minecraft.client.renderer.texture.IconRegister)
-	 */
+	
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
 		// TODO Auto-generated method stub
 		
-		//this.itemIcon = par1IconRegister.registerIcon("iron armor"); //Temporary.
-		super.registerIcons(par1IconRegister);
+		this.itemIcon = par1IconRegister.registerIcon("shadowtrees:shadowcloak"); //Temporary.
+		//super.registerIcons(par1IconRegister);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.minecraft.item.Item#getArmorTexture(net.minecraft.item.ItemStack, net.minecraft.entity.Entity, int, java.lang.String)
-	 */
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
 		// TODO Auto-generated method stub
-		
-		return "shadowtrees:textures/armor/shadowcloak2.png";
+		if (entity.isInvisible())
+			return "shadowtrees:textures/armor/blank.png";
+		else
+			return "shadowtrees:textures/armor/shadowcloak2.png";
 	}
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,

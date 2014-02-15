@@ -219,7 +219,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 						//This should be the blank iron rune.  Not Valid.
 						break;
 					case 1:
-						newCloak = parseRune(newCloak, "Flight", 1, "Iron Flight Rune");
+						newCloak = parseRune(newCloak, "Flight", 1);
 						if (newCloak != null)
 								{
 							Valid = true;
@@ -230,7 +230,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 						break;
 
 					case 2:
-						newCloak = parseRune(newCloak, "Flight", 2, "Diamond Flight Rune");
+						newCloak = parseRune(newCloak, "Flight", 2);
 						if (newCloak != null)
 								{
 							Valid = true;
@@ -240,7 +240,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 								}
 						break;
 						case 3:
-							newCloak = parseRune(newCloak, "Flight", 3, "Emerald Flight Rune");
+							newCloak = parseRune(newCloak, "Flight", 3);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -249,7 +249,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 4:
-							newCloak = parseRune(newCloak, "Dissipation", 1, "Iron Dissipation Rune");
+							newCloak = parseRune(newCloak, "Dissipation", 1);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -257,7 +257,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 5:
-							newCloak = parseRune(newCloak, "Dissipation", 2, "Diamond Dissipation Rune");
+							newCloak = parseRune(newCloak, "Dissipation", 2);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -265,7 +265,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 6:
-							newCloak = parseRune(newCloak, "Dissipation", 3, "Emerald Dissipation Rune");
+							newCloak = parseRune(newCloak, "Dissipation", 3);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -273,7 +273,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 7:
-							newCloak = parseRune(newCloak, "Fog", 1, "Iron Fog Rune");
+							newCloak = parseRune(newCloak, "Fog", 1);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -281,7 +281,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 8:
-							newCloak = parseRune(newCloak, "Fog", 2, "Diamdon Fog Rune");
+							newCloak = parseRune(newCloak, "Fog", 2);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -289,7 +289,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 9:
-							newCloak = parseRune(newCloak, "Fog", 1, "Emerald Fog Rune");
+							newCloak = parseRune(newCloak, "Fog", 1);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -297,7 +297,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 10:
-							newCloak = parseRune(newCloak, "Concentration", 1, "Iron Concentration Rune");
+							newCloak = parseRune(newCloak, "Concentration", 1);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -308,7 +308,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 11:
-							newCloak = parseRune(newCloak, "Concentration", 2, "Diamond Concentration Rune");
+							newCloak = parseRune(newCloak, "Concentration", 2);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -319,7 +319,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 12:
-							newCloak = parseRune(newCloak, "Concentration", 3, "Emerald Concentration Rune");
+							newCloak = parseRune(newCloak, "Concentration", 3);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -330,7 +330,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 13:
-							newCloak = parseRune(newCloak, "Blast", 1, "Iron Blast Rune");
+							newCloak = parseRune(newCloak, "Blast", 1);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -338,7 +338,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 14:
-							newCloak = parseRune(newCloak, "Blast", 2, "Diamond Blast Rune");
+							newCloak = parseRune(newCloak, "Blast", 2);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -346,7 +346,7 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 									}
 							break;
 						case 15:
-							newCloak = parseRune(newCloak, "Blast", 3, "Emerald Blast Rune");
+							newCloak = parseRune(newCloak, "Blast", 3);
 							if (newCloak != null)
 									{
 								Valid = true;
@@ -372,26 +372,16 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 		}
 	}
 	
-	private ItemStack parseRune(ItemStack newCloak, String Tag, int Level, String Name)
+	private ItemStack parseRune(ItemStack newCloak, String Tag, int Level)
 	{
 		if (newCloak.stackTagCompound.getInteger(Tag) >= Level ||
 				newCloak.stackTagCompound.getInteger("NumUpgrades") > 3)
 			return null;
 		else {
 			newCloak.stackTagCompound.setBoolean("Upgraded", true);
-			NBTTagList ntag;
-			ntag = newCloak.stackTagCompound.getCompoundTag("display").getTagList("Lore");
-
-			if (!newCloak.stackTagCompound.hasKey(Tag))
-			{
-				newCloak.stackTagCompound.setInteger("NumUpgrades", newCloak.stackTagCompound.getInteger("NumUpgrades") +1);
-			}
 			
 			newCloak.stackTagCompound.setInteger(Tag, Level);
 			
-			ntag = newCloak.stackTagCompound.getCompoundTag("display").getTagList("Lore");
-			replaceTag(Tag, Name, ntag);
-			ntag.setName("Lore");
 			return newCloak;
 			}
 
@@ -409,23 +399,5 @@ public class ShadowWellEntity extends TileEntity implements IInventory {
 		}
 		super.onInventoryChanged();
 	}
-	
-	private void replaceTag(String name, String value, NBTTagList list)
-	{
-		NBTTagString string;
-		string = new NBTTagString(name, value);
-		for (int i = 0; i < list.tagCount(); i++)
-		{
-			if (list.tagAt(i).getName() == name)
-			{	
-				list.removeTag(i);
-				list.appendTag(string);
-				return;
-			}
-		}
-		
-		list.appendTag(string);
-	}
-
 
 }

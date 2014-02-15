@@ -1,5 +1,9 @@
 package darva.shadowcraft.entities;
 
+import java.sql.Date;
+import java.util.Random;
+import java.util.Timer;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +16,42 @@ import darva.shadowcraft.Main;
 import darva.shadowcraft.item.ShadowArmor;
 
 public class EntityBlast extends EntityThrowable {
-    /* (non-Javadoc)
+    @Override
+	public void onEntityUpdate() {
+		// TODO Auto-generated method stub
+		super.onEntityUpdate();
+		
+		if (this.worldObj.isRemote)
+			return;
+		Random rnd = new Random(System.currentTimeMillis());
+		
+		if (rnd.nextInt(10) > 2)
+		{
+			int x,y,z;
+			x = (int) this.posX;
+			y = (int) this.posY;
+			z = (int) this.posZ;
+			
+			setBlock(this.worldObj,x+1,y,z, 1);
+			setBlock(this.worldObj,x-1,y,z, 1);
+			setBlock(this.worldObj,x,y+1,z, 1);
+			setBlock(this.worldObj,x,y-1,z, 1);
+			setBlock(this.worldObj,x,y,z+1, 1);
+			setBlock(this.worldObj,x,y,z-1, 1);
+		}
+	}
+    
+    private void setBlock(World world, int x, int y, int z, int meta)
+	{
+		if (world.isAirBlock(x, y, z) && world.getBlockId(x, y, z) != Main.shadowBlock.blockID)
+		{
+			//Possible, and sane to replace this block with shadows.
+			world.setBlock(x, y, z, Main.shadowBlock.blockID, meta, 1|2);
+			world.scheduleBlockUpdate(x, y, z, Main.shadowBlock.blockID, 10);
+		}
+	}
+
+	/* (non-Javadoc)
 	 * @see net.minecraft.entity.projectile.EntityThrowable#getGravityVelocity()
 	 */
 	@Override
@@ -39,19 +78,13 @@ public class EntityBlast extends EntityThrowable {
     /**
      * Called when this EntityThrowable hits a block or entity.
      */
-    protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
+    protected void onImpact(MovingObjectPosition mop)
     {
     	ItemStack armor;
     	ShadowArmor sh;
     	int damage = 0;
-        if (par1MovingObjectPosition.entityHit != null)
+        if (mop.entityHit != null)
         {
-            byte b0 = 0;
-
-            if (par1MovingObjectPosition.entityHit instanceof EntityBlaze)
-            {
-                b0 = 3;
-            }
             armor = Main.getArmor((EntityPlayer) this.getThrower());
             sh = (ShadowArmor) armor.getItem();
             
@@ -68,7 +101,7 @@ public class EntityBlast extends EntityThrowable {
             	break;
             }
             
-            par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)damage);
+            mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)damage);
         }
 
         for (int i = 0; i < 8; ++i)
@@ -79,7 +112,15 @@ public class EntityBlast extends EntityThrowable {
         if (!this.worldObj.isRemote)
         {
             this.setDead();
+            setBlock(this.worldObj, mop.blockX, mop.blockY-1, mop.blockZ, 9);
         }
     }
+
+	@Override
+	public void onUpdate() {
+		// Spawn particles here, make it look more like a blast of shadow.
+		
+		super.onUpdate();
+	}
 
 }

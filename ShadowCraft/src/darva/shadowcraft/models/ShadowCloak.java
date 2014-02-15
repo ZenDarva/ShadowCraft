@@ -11,9 +11,11 @@
 
 package darva.shadowcraft.models;
 
+import darva.shadowcraft.item.ShadowArmor;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class ShadowCloak extends ModelBiped
 {
@@ -106,6 +108,7 @@ public void setRotationAngles(float par1, float par2, float par3, float par4,
 public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
   {
     super.render(entity, f, f1, f2, f3, f4, f5);
+    	
     setRotationAngles(f, f1, f2, f3, f4, f5, entity);
     Collar_Base.render(f5);
     Collar_Outer_1.render(f5);

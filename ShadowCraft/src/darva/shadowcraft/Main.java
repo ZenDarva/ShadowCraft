@@ -24,6 +24,8 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import darva.shadowcraft.blocks.BlockPlanks;
+import darva.shadowcraft.blocks.ShadowBlock;
 import darva.shadowcraft.blocks.ShadowWell;
 import darva.shadowcraft.blocks.TreeBlock;
 import darva.shadowcraft.blocks.TreeLeaves;
@@ -36,6 +38,7 @@ import darva.shadowcraft.handlers.DamageHandler;
 import darva.shadowcraft.handlers.GuiHandler;
 import darva.shadowcraft.handlers.PacketHandler;
 import darva.shadowcraft.item.ItemRune;
+import darva.shadowcraft.item.ItemShadow;
 import darva.shadowcraft.item.ShadowArmor;
 
 
@@ -49,26 +52,29 @@ public class Main {
 	public static Block LeavesBlock;
 	public static Block SaplingBlock;
 	public static TreeGenerator treeGen;
-	public static Item itemShadow;
+	public static ItemShadow itemShadow;
 	public static Icon shadowIcon;
 	public static Item shadowArmor;
 	public static Block shadowWell;
+	public static ShadowBlock shadowBlock;
 	private ItemStack shadow;
 	public static Item runeItem;
 	public static ClientTickHandler cfh;
+	public static Settings settings;
+	public static BlockPlanks shadowPlank;
 
 	
 	@SidedProxy(clientSide="darva.shadowcraft.ClientProxy", serverSide="darva.shadowcraft.CommonProxy")
     public static CommonProxy proxy;
 	@EventHandler // used in 1.6.2
-    public void preInit(FMLPreInitializationEvent event) {
-        System.out.println("Side: " + event.getSide()); 
+    public void preInit(FMLPreInitializationEvent event) { 
 		treeGen = new TreeGenerator();
 		MinecraftForge.EVENT_BUS.register(new BonemealHandler());
 		
+		settings = new Settings(event);
 		initBlocks();
 		initItems();
-		
+		setupItems();
 		new GuiHandler();
 	}
    
@@ -82,9 +88,6 @@ public class Main {
     		EntityRegistry.registerModEntity(EntityBlast.class, "ShadowBlast", 510, this.instance, 10, 1, false);
     		
     		setupBlocks();
-    		
-    		setupItems();
-    		
     		shadow = new ItemStack(itemShadow);
     		
     		setupRecipies();
@@ -100,26 +103,27 @@ public class Main {
     }
     private void initBlocks()
     {
-		TreeBlock = new TreeBlock(500, Material.wood)
-        .setHardness(0.5F).setStepSound(Block.soundWoodFootstep)
+		TreeBlock = new TreeBlock(settings.woodID, Material.wood)
+        .setHardness(0.3F).setStepSound(Block.soundWoodFootstep)
         .setUnlocalizedName("Shadow Wood").setCreativeTab(CreativeTabs.tabBlock);
-		LeavesBlock = new TreeLeaves(501, Material.leaves)
-        .setHardness(0.5F).setStepSound(Block.soundSnowFootstep)
+		LeavesBlock = new TreeLeaves(settings.leavesID, Material.leaves)
+        .setHardness(0.0F).setStepSound(Block.soundSnowFootstep)
         .setUnlocalizedName("Shadow Leaves").setCreativeTab(CreativeTabs.tabBlock);
-		SaplingBlock = new blockSapling(502, Material.plants)
-        .setHardness(0.5F).setStepSound(Block.soundGrassFootstep)
+		SaplingBlock = new blockSapling(settings.saplingID, Material.plants)
+        .setHardness(0.0F).setStepSound(Block.soundGrassFootstep)
         .setUnlocalizedName("Shadow Sapling").setCreativeTab(CreativeTabs.tabBlock);
-		shadowWell = new ShadowWell(505, Material.rock).setHardness(1f);
-    	
+		shadowWell = new ShadowWell(settings.wellID, Material.ground).setHardness(.5f);
+    	shadowBlock = new ShadowBlock(settings.shadowBlockID, Material.air);
+    	shadowPlank = new BlockPlanks(settings.shadowPlankID, Material.wood);
+        
     }
     private void initItems()
     {
-		itemShadow = new Item(503).setUnlocalizedName("Congealed Shadow").setCreativeTab(CreativeTabs.tabMisc)
-				.setMaxDamage(64);
-		shadowArmor = new ShadowArmor(504, EnumArmorMaterial.CLOTH, 4,1).setCreativeTab(CreativeTabs.tabCombat)
+		itemShadow = new ItemShadow(settings.shadowID);
+		shadowArmor = new ShadowArmor(settings.armorID, EnumArmorMaterial.CLOTH, 4,1).setCreativeTab(CreativeTabs.tabCombat)
 				.setMaxDamage(100);
 		
-		runeItem = new ItemRune(506).setCreativeTab(CreativeTabs.tabMisc);
+		runeItem = new ItemRune(settings.runeID).setCreativeTab(CreativeTabs.tabMisc);
     }
     
     private void setupBlocks()
@@ -139,6 +143,13 @@ public class Main {
 		GameRegistry.registerBlock(shadowWell, "ShadowWell");
 		LanguageRegistry.addName(shadowWell, "Well of Shadows");
 		MinecraftForge.setBlockHarvestLevel(shadowWell, "pick", 0);
+		
+		GameRegistry.registerBlock(shadowPlank, "ShadowPlank");
+		LanguageRegistry.addName(shadowPlank, "Shadow Wood Plank");
+		MinecraftForge.setBlockHarvestLevel(shadowPlank, "axe", 0);
+		
+		GameRegistry.registerBlock(shadowBlock, "Shadows");
+		LanguageRegistry.addName(shadowBlock, "Shadows");
     }
     private void setupItems()
     {
@@ -147,11 +158,11 @@ public class Main {
     	
     	GameRegistry.registerItem(itemShadow, "CongealedShadow");
 		LanguageRegistry.addName(itemShadow, "Congealed Shadow");
-		itemShadow.setTextureName("shadowtrees:congealed_shadow");
 		
 		GameRegistry.registerItem(shadowArmor, "Shadow Cloak");
 		LanguageRegistry.addName(shadowArmor, "Shadow Cloak");
-		//GameRegistry.registerItem(runeItem, ItemRune.class);
+		GameRegistry.registerItem(runeItem, "Rune");
+		
 		ItemStack item;
 		for(int i = 0; i < ItemRune.LocalNames.length; i++) {
 				ItemStack Item;
@@ -210,8 +221,11 @@ public class Main {
 		//Emerald Dissipation Rune
 		GameRegistry.addRecipe(new ItemStack(runeItem, 1, 6),"xyx","yzy","xyx", 'x', shadow, 'y', Item.diamond, 'z', new ItemStack(this.runeItem,1,17));
 
-		
+		//Smelt Shadow Wood to Congealed Shadows
 		GameRegistry.addSmelting(this.TreeBlock.blockID, new ItemStack(this.itemShadow), 2);
+		
+		//Wood to planks.
+		GameRegistry.addShapelessRecipe(new ItemStack(this.shadowPlank,1), new ItemStack(this.TreeBlock,1) );
 		
     }
     private void setupTickHandlers()
